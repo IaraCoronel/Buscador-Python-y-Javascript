@@ -1,0 +1,52 @@
+<!DOCTYPE html> <!-- Iniciamos con HTML-->
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador con Python :D</title>
+</head>
+<body>
+    <h1>Buscador pero con Python :D</h1>
+    <input type="text" id="searchInput" placeholder="Introduce tu búsqueda">
+    <button onclick="search()">Buscar</button>
+    <div id="results"></div>
+    <!-- Acá sigue Python-->
+    <script> 
+        // páginas acá! <(URLs)
+        const pages = {
+            "Mario Bros": "mariobros.html",
+            "Minecraft": "minecraft.html",  
+            "Otro ejemplo": "otroejemplo.html" 
+        };
+        //busqueda
+        function search() {
+            const query = document.getElementById("searchInput").value.toLowerCase(); //lowercase para evitar que los resultados no se limiten por el case sensitive
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = ""; //borra la busqueda para evitar errores
+            const results = Object.keys(pages).filter(page => page.toLowerCase().includes(query)); //Filtra las páginas que se buscan
+            if (results.length > 0) { //condicional para buscar
+                results.forEach((result, index) => {
+                    const div = document.createElement("div");
+                    div.className = "result";
+                    div.textContent = `${index + 1}. ${result}`;
+                    div.onclick = () => { window.location.href = pages[result]; }; //Te redirige a donde debe
+                    resultsDiv.appendChild(div);
+                });
+            } else { //Por si no se encuentra un resultado
+                resultsDiv.textContent = "Esta página no está disponible aún :(";
+            }
+        }
+        function clearSearch() {
+            document.getElementById("searchInput").value = ""; // Limpia el campo de búsqueda
+            document.getElementById("results").innerHTML = ""; // Limpia los resultados
+        }
+         //Para que busque apretando el enter
+        document.getElementById("searchInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+            search(); 
+            }
+        });
+    </script>
+</body>
+</html>
